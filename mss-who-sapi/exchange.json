@@ -1,0 +1,45 @@
+{
+  "dependencies": [
+    {
+      "version": "1.0.0",
+      "assetId": "client-id-required",
+      "groupId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+      "provided": false
+    },
+    {
+      "version": "1.0.0",
+      "assetId": "correlation-id-header",
+      "groupId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+      "provided": false
+    },
+    {
+      "version": "1.0.0",
+      "assetId": "common-data-types",
+      "groupId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+      "provided": false
+    },
+    {
+      "version": "1.0.0",
+      "assetId": "transaction-header",
+      "groupId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+      "provided": false
+    },
+    {
+      "version": "1.0.0",
+      "assetId": "resource-types",
+      "groupId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+      "provided": false
+    }
+  ],
+  "version": "1.0.0",
+  "descriptorVersion": "1.0.0",
+  "classifier": "raml",
+  "main": "who-sapi.raml",
+  "assetId": "mss-who-sapi",
+  "groupId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+  "name": "mss-who-sapi",
+  "organizationId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+  "apiVersion": "v1",
+  "tags": [],
+  "originalFormatVersion": "1.0"
+}

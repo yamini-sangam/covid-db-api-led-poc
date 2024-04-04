@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<response>
+  <code>500</code>
+  <message>Internal server error</message>
+  <description>The server encountered an unexpected condition which prevented it from fulfilling the request</description>
+  <dateTime>2021-05-29T05:58:02Z</dateTime>
+  <transactionId>44b32520-61ee-47b4-907d-fa15869f3c4d</transactionId>
+</response>

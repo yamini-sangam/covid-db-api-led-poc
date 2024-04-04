@@ -1,0 +1,28 @@
+%dw 2.0
+
+type auto_af3d0099_ba0e_42da_8c0a_87e14d764845_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    client_id: String, 
+    client_secret: String, 
+    "x-correlation-id"?: String, 
+    "x-transaction-id"?: String
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| environment: "uho-test-who-sapi.us-e2.cloudhub.io" | "uho-uat-who-sapi.us-e2.cloudhub.io" | "uho-dev-who-sapi.us-e2.cloudhub.io" | "uho-prod-who-sapi.us-e2.cloudhub.io" |}, 
+  version: String, 
+  localAddress: String
+|}
+

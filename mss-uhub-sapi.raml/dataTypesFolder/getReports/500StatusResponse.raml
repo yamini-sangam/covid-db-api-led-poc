@@ -1,0 +1,23 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  code:
+    type: integer
+    example: 500
+    required: true 
+  message:
+    example: Internal server error
+    type: string
+    required: true
+  description:
+    example: The server encountered an unexpected condition which prevented it from fulfilling the request
+    type: string
+    required: false
+  dateTime:
+    example: 2021-05-31T06:18:02Z
+    type: datetime
+    required: true
+  transactionId:
+    example: 48n32920-69ne-47b4-907d-fa15869f3c4d
+    type: string
+    required: true

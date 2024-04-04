@@ -1,0 +1,13 @@
+{
+  "main": "mss-uhub-sapi-raml.raml",
+  "name": "mss-uhub-sapi",
+  "groupId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+  "assetId": "mss-uhub-sapi",
+  "version": "1.0.1",
+  "classifier": "raml",
+  "tags": [],
+  "descriptorVersion": "1.0.0",
+  "organizationId": "5d1848f0-bd0b-411c-9c4a-a22c4dd0bea6",
+  "apiVersion": "v1",
+  "originalFormatVersion": "1.0"
+}

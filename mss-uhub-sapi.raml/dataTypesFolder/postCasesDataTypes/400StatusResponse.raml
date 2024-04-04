@@ -1,0 +1,23 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  code:
+    type: integer
+    example: 400
+    required: true 
+  message:
+    example: Bad Request
+    type: string
+    required: true
+  description:
+    example: field validation doesn't meet
+    type: string
+    required: false
+  dateTime:
+    example: 2021-05-29T05:58:02Z
+    type: datetime
+    required: true
+  transactionId:
+    example: 44b32520-61ee-47b4-907d-fa15869f3c4d
+    type: string
+    required: true

@@ -1,0 +1,147 @@
+#%RAML 1.0
+title: mss-uhub-sapi
+baseUri: http://localhost:8081/covid
+securitySchemes:
+  basic:
+    type: Basic Authentication
+/v1/cases:
+  securedBy:
+    - basic
+  post:
+    description: This resource used to register a covid case.
+    headers:
+      x-correlation-id:
+        required: false
+        type: string
+        example: "7474774"
+      x-transaction-id:
+        required: false
+        type: string
+        example: "74a2d61f-a3cb-4b1b-9e97-767236ee0620" 
+    body:
+      application/json:
+        type: !include /dataTypesFolder/postCasesDataTypes/patientDetails.raml
+        example: !include /examplesFolder/postCasesExamples/patientDetails.json
+    responses:
+        200:
+           body:
+              application/json:
+                type: !include /dataTypesFolder/postCasesDataTypes/caseIdResponse.raml
+                example: !include /examplesFolder/postCasesExamples/caseIdResponse.json
+
+        400:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/postCasesDataTypes/400StatusResponse.raml
+              example: !include /examplesFolder/postCasesExamples/400StatusResponse.json
+                    
+        503:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/postCasesDataTypes/503StatusResponse.raml
+              example: !include /examplesFolder/postCasesExamples/503StatusResponse.json
+        500:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/postCasesDataTypes/500StatusResponse.raml
+              example: !include /examplesFolder/postCasesExamples/500StatusResponse.json
+                    
+  put:
+    description: This resource used to update a covid case.
+    body:
+      application/xml:
+        type: !include /dataTypesFolder/putCasesDataTypes/updatePatientDetailsDataType.raml
+        example: !include /examplesFolder/putCasesExamples/updatePatientDetails.xml
+              
+    responses:
+      200:
+        body:
+          application/xml:
+            type: !include /dataTypesFolder/putCasesDataTypes/caseIdResponse.raml
+            example: !include /examplesFolder/putCasesExamples/caseIdResponse.xml
+                  
+      400:
+        body:
+          application/xml:
+            type: !include /dataTypesFolder/putCasesDataTypes/400StatusResponse.raml
+            example: !include /examplesFolder/putCasesExamples/400StatusResponse.xml
+                  
+      503:
+        body:
+          application/xml:
+            type: !include /dataTypesFolder/putCasesDataTypes/503StatusResponse.raml
+            example: !include /examplesFolder/putCasesExamples/503StatusResponse.xml
+              
+      500:
+        body:
+          application/xml:
+            type: !include /dataTypesFolder/putCasesDataTypes/500StatusResponse.raml
+            example: !include /examplesFolder/putCasesExamples/500StatusResponse.xml
+                  
+/{nationalID}:
+    get:
+      description: To get covid cases by national id
+      headers:
+        x-correlation-id:
+          required: false
+          type: string
+          example: "7474774"
+        x-transaction-id:
+          required: false
+          type: string
+          example: "74a2d61f-a3cb-4b1b-9e97-767236ee0620" 
+      responses:
+        200:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/getNationalIdDataTypes/patientDetailsByNationalId.raml
+              example: !include /examplesFolder/getNationalIdExamples/patientDetailsByNationalId.json
+                
+        503:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/getNationalIdDataTypes/503StatusResponse.raml
+              example: !include /examplesFolder/getNationalIdExamples/503StatusResponse.json 
+                    
+        500:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/getNationalIdDataTypes/500StatusResponse.raml
+              example: !include /examplesFolder/getNationalIdExamples/500StatusResponse.json
+                     
+/reports: 
+  description: To get reports by state wise and if state not provided all states reports responded
+  get:
+    headers:
+      x-correlation-id:
+        required: false
+        type: string
+        example: "7474774"
+      x-transaction-id:
+        required: false
+        type: string
+        example: "74a2d61f-a3cb-4b1b-9e97-767236ee0620" 
+    queryParameters:
+      state:
+        required: false
+        type: string
+        example: "TX"
+    responses:
+      200:
+        body:
+          application/json:
+            type: !include /dataTypesFolder/getReports/reportDetails.raml
+            example: !include /examplesFolder/getReports/reportDetails.json
+      503:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/getReports/503StatusResponse.raml
+              example: !include /examplesFolder/getReports/503StatusResponse.json
+                
+      500:
+          body:
+            application/json:
+              type: !include /dataTypesFolder/getReports/500StatusResponse.raml
+              example: !include /examplesFolder/getReports/500StatusResponse.json
+                  
+  

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="report-covid-case-to-who-sf" doc:id="af3d0099-ba0e-42da-8c0a-87e14d764845" >
+	<set-variable value="#[attributes.headers.'x-correlation-id' default &quot;&quot;]" doc:name="Set correlationId" doc:id="9dec9388-c8be-45d0-b390-0661c9a5d238" variableName="correlationId" />
+		<logger level="INFO" doc:name="Start Log" doc:id="9058b10d-e62d-4b67-8a95-5b434d999501" message='transactionID: #[vars.transactionId]], correlationID: #[vars.correlationID], message: "Started report covid case to who flow", payload: #[payload]' />
+		<ee:transform doc:name="Prepare WHO Case Payload" doc:id="959feb8b-4d08-430a-89fa-d8969dbae6cb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+	COVID_CASE: {
+		FIRST_NAME: payload.firstName,
+		LAST_NAME: payload.lastName,
+		PHONE: payload.phone,
+		EMAIL: payload.email,
+		DATE_OF_BIRTH: payload.dateOfBirth,
+		COUNTRY: payload.country
+	}
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="dynamicProperties" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	CASE_TYPE: payload.caseType
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+<!-- 		<flow-ref doc:name="publish-covid-case-to-who" doc:id="b2ecedd8-65b1-44e1-a63a-84a6b4cec206" name="publish-covid-case-to-who" />
+ -->		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Set Response">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: 200,
+	message: "Success",
+	description: "Case reported successfully",
+	dateTime: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss'Z'" },
+	transactionId: vars.transactionId
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="End Log" doc:id="23ec0372-db0c-43da-8fc5-0829eefaa736" message='transactionID: #[vars.transactionId]], correlationID: #[vars.correlationID], message: "Started report covid case to who flow", payload: #[payload]'/>
+	
+	</sub-flow>
+</mule>

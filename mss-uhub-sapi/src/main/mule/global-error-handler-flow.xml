@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="global-error-handler" doc:id="a74127ac-83b7-4920-9e78-557c7a206426" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="18db3399-65c0-42f6-9f74-49f07764cb38" type="DB:CONNECTIVITY" >
+			<ee:transform doc:name="Set Service Unavailable Response" doc:id="01eab07a-fd0f-4e46-a039-2482c4b23942" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+   "code":503,
+   "message":"Service unavailable",
+   "description":"The (upstream) service is temporarily not available",
+   "dateTime":now() as String { format: "yyyy-MM-dd'T'HH:mm:ss'Z'" },
+   "transactionId":vars.transactionId
+}
+]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="statusCode" ><![CDATA[503]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="eb5f1b6b-e800-4cde-959b-5c9f06a5f090" type="ANY" >
+			<ee:transform doc:name="Set Internal Server Response" doc:id="a8ca6d05-93de-4b85-bec6-738988a679ff" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+   "code":500,
+   "message":"Internal server error",
+   "description":"The server encountered an unexpected condition which prevented it from fulfilling the request",
+   "dateTime":now() as String { format: "yyyy-MM-dd'T'HH:mm:ss'Z'" },
+   "transactionId":vars.transactionId
+ 
+}
+]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="statusCode" ><![CDATA[500]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</on-error-propagate>
+	</error-handler>
+</mule>

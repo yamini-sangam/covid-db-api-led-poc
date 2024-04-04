@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="insert-covid-case-sub-flow" doc:id="2283d1e8-d0a5-4fee-8027-67ba178868e1" >
+		<logger level="DEBUG" doc:name="Start Log" doc:id="0969f1eb-4a37-41c0-950b-e262079bcf12" message='#["Before insert covid case database call"]'/>
+		<db:stored-procedure doc:name="Insert Covid Case Stored procedure" doc:id="57e58bd0-3b9d-49c7-80ab-e429e4d086b1" config-ref="Database_Config">
+			<db:sql><![CDATA[{call insert_covid_master(:source, :case_type, :first_name, :last_name, :phone, :email, :date_of_birth, :national_id, :national_id_type, :street_address, :city, :state, :postal, :country, :create_date, :update_date, :create_by, :update_by, :case_id)}]]></db:sql>
+			<db:input-parameters><![CDATA[#[%dw 2.0
+output application/java
+var currentDate = now() as String { format: "YYYY-MM-dd" }
+var owner = "UHIS"
+---
+{
+	source: vars.inputPayload.source,
+	case_type: vars.inputPayload.caseType,
+	first_name: vars.inputPayload.firstName,
+	last_name: vars.inputPayload.lastName,
+	phone: vars.inputPayload.phone,
+	email: vars.inputPayload.email,
+	date_of_birth: vars.inputPayload.dateOfBirth as String { format: "YYYY-MM-dd" },
+	national_id: vars.inputPayload.nationalID,
+	national_id_type: vars.inputPayload.nationalIDType,
+	street_address: vars.inputPayload.address.streetAddress,
+	city: vars.inputPayload.address.city,
+	state: upper(vars.inputPayload.address.state),
+	postal: vars.inputPayload.address.postal,
+	country: vars.inputPayload.address.country,
+	create_date: currentDate,
+	update_date: currentDate,
+	create_by: owner,
+	update_by: owner
+}]]]></db:input-parameters>
+			<db:output-parameters>
+				<db:output-parameter key="case_id" type="INTEGER" />
+			</db:output-parameters>
+		</db:stored-procedure>
+		<logger level="DEBUG" doc:name="End Log" doc:id="6f575246-8699-415a-84ac-d7f353e40295" message='#["Complete insert covid case database call"]'/>
+	</sub-flow>
+</mule>
